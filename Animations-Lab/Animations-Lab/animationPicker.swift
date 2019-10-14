@@ -11,6 +11,8 @@ import UIKit
 
 class animationPicker:UIViewController {
    
+    var arrayOfOptions = ["Repeat","AutoReverse","AllowAnimatedContent","Curve Ease Out","Curve Ease In"]
+           
 
     var animationPicker:UIPickerView = {
         let picker = UIPickerView()
@@ -29,34 +31,33 @@ class animationPicker:UIViewController {
 }
 extension animationPicker:UIPickerViewDelegate,UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 5
+        return 1
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 1
+        return arrayOfOptions.count
     }
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        switch component {
-        case 1:
-            return "Repeat"
-        case 2:
-            return "AutoReverse"
-        case 3:
-            return "AllowAnimatedContent"
-        case 4:
-            return "Curve Ease Out"
+      return  arrayOfOptions[row]
+    }
+        func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
             
-        case 5:
-            return "Curve Ease In"
-        
-        default:
-        return " "
-        }
-       
-        
+            UserDefaultsWrapper.shared.store(option: arrayOfOptions[row])
+            
+            let alert = UIAlertController(title: "Option Picked", message: "You have picked \(arrayOfOptions[row])", preferredStyle: .alert)
+            let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            let proceed = UIAlertAction(title: "Ok", style: .default) { (actions) in
+let initialVC = ViewController()
+                self.present(initialVC, animated: true)
+            }
+                alert.addAction(cancel)
+                alert.addAction(proceed)
+            present(alert,animated: true)
+            }
+            
     }
     
     
     
 
-}
+
