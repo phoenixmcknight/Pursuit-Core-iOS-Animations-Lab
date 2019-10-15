@@ -60,7 +60,25 @@ class ViewController: UIViewController {
         return button
     }()
     
+    lazy var settingsButton:UIButton = {
+        let frame = UIScreen.main.bounds
+        let button = UIButton(frame: CGRect(x: frame.minX + 150, y: frame.minY + 100, width: 75, height: 50))
+        button.setTitle("Settings", for: .normal)
+        button.tintColor = .black
+        button.backgroundColor = .red
+        button.addTarget(self, action: #selector(showSettings), for: .touchUpInside)
+        return button
+    }()
     
+    lazy var actionButton:UIButton = {
+        let frame = UIScreen.main.bounds
+               let button = UIButton(frame: CGRect(x: frame.minX + 150, y: frame.minY + 150, width: 75, height: 50))
+               button.setTitle("Action", for: .normal)
+               button.tintColor = .black
+               button.backgroundColor = .black
+               button.addTarget(self, action: #selector(changeSetting), for: .touchUpInside)
+               return button
+    }()
     
     lazy var blueSquareHeightConstaint: NSLayoutConstraint = {
         blueSquare.heightAnchor.constraint(equalToConstant: 200)
@@ -117,6 +135,8 @@ class ViewController: UIViewController {
   
     
     private func addSubviews() {
+        view.addSubview(actionButton)
+        view.addSubview(settingsButton)
         view.addSubview(blueSquare)
        view.addSubview(secondButtonStackView)
         view.addSubview(buttonStackView)
@@ -126,6 +146,55 @@ class ViewController: UIViewController {
     
     @objc func showdurationTime() {
         durationLabel.text = "Duration Value \(self.stepperAction.value)"
+    }
+    @objc func showSettings() {
+let animationVC = animationPicker()
+        present(animationVC,animated: true)
+        
+    }
+    @objc func changeSetting() {
+        if UserDefaultsWrapper.shared.getOption() != nil {
+          
+        
+        
+        switch UserDefaultsWrapper.shared.getOption() {
+        case "Repeat":
+            UIView.animate(withDuration: self.stepperAction.value, delay: 0.0, options: [.repeat], animations: {
+                  self.blueSquare.center = CGPoint(x: self.blueSquare.center.x + 100 , y: self.blueSquare.center.y + 100)
+            }) { (_) in
+                  self.blueSquare.center = CGPoint(x: self.blueSquare.center.x - 100 , y: self.blueSquare.center.y - 100)
+            }
+        case "AutoReverse":
+            UIView.animate(withDuration: self.stepperAction.value, delay: 0.0, options: [.autoreverse], animations: {
+                             self.blueSquare.center = CGPoint(x: self.blueSquare.center.x + 100 , y: self.blueSquare.center.y + 100)
+                       }) { (_) in
+                             self.blueSquare.center = CGPoint(x: self.blueSquare.center.x - 100 , y: self.blueSquare.center.y - 100)
+                       }
+        case "AllowAnimatedContent":
+            UIView.animate(withDuration: self.stepperAction.value, delay: 0.0, options: [.allowAnimatedContent], animations: {
+                             self.blueSquare.center = CGPoint(x: self.blueSquare.center.x + 100 , y: self.blueSquare.center.y + 100)
+                       }) { (_) in
+                             self.blueSquare.center = CGPoint(x: self.blueSquare.center.x - 100 , y: self.blueSquare.center.y - 100)
+                       }
+        case "Curve Ease Out":
+            UIView.animate(withDuration: self.stepperAction.value, delay: 0.0, options: [.curveEaseOut], animations: {
+                             self.blueSquare.center = CGPoint(x: self.blueSquare.center.x + 100 , y: self.blueSquare.center.y + 100)
+                       }) { (_) in
+                             self.blueSquare.center = CGPoint(x: self.blueSquare.center.x - 100 , y: self.blueSquare.center.y - 100)
+                       }
+        case "Curve Ease In":
+            UIView.animate(withDuration: self.stepperAction.value, delay: 0.0, options: [.curveEaseIn], animations: {
+                             self.blueSquare.center = CGPoint(x: self.blueSquare.center.x + 100 , y: self.blueSquare.center.y + 100)
+                       }) { (_) in
+                             self.blueSquare.center = CGPoint(x: self.blueSquare.center.x - 100 , y: self.blueSquare.center.y - 100)
+                       }
+            
+        default:
+            return
+        }
+        } else {
+            return
+        }
     }
     
     private func configureConstraints() {

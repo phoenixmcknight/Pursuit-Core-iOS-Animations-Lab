@@ -47,8 +47,7 @@ extension animationPicker:UIPickerViewDelegate,UIPickerViewDataSource {
             let alert = UIAlertController(title: "Option Picked", message: "You have picked \(arrayOfOptions[row])", preferredStyle: .alert)
             let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             let proceed = UIAlertAction(title: "Ok", style: .default) { (actions) in
-let initialVC = ViewController()
-                self.present(initialVC, animated: true)
+                self.dismiss(animated: true, completion: nil)
             }
                 alert.addAction(cancel)
                 alert.addAction(proceed)
